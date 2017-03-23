@@ -165,7 +165,7 @@ class Raven_Client
         $this->curl_method = Raven_Util::get($options, 'curl_method', 'sync');
         $this->curl_path = Raven_Util::get($options, 'curl_path', 'curl');
         $this->curl_ipv4 = Raven_Util::get($options, 'curl_ipv4', true);
-        $this->ca_cert = Raven_Util::get($options, 'ca_cert', static::get_default_ca_cert());
+        $this->ca_cert = Raven_Util::get($options, 'ca_cert', self::get_default_ca_cert());
         $this->verify_ssl = Raven_Util::get($options, 'verify_ssl', true);
         $this->curl_ssl_version = Raven_Util::get($options, 'curl_ssl_version');
         $this->trust_x_forwarded_proto = Raven_Util::get($options, 'trust_x_forwarded_proto');
@@ -177,7 +177,7 @@ class Raven_Client
         $this->setAppPath(Raven_Util::get($options, 'app_path', null));
         $this->setExcludedAppPaths(Raven_Util::get($options, 'excluded_app_paths', null));
         // a list of prefixes used to coerce absolute paths into relative
-        $this->setPrefixes(Raven_Util::get($options, 'prefixes', static::getDefaultPrefixes()));
+        $this->setPrefixes(Raven_Util::get($options, 'prefixes', self::getDefaultPrefixes()));
         $this->processors = $this->setProcessorsFromOptions($options);
 
         $this->_lasterror = null;
@@ -202,7 +202,7 @@ class Raven_Client
         }
 
         $this->transaction = new Raven_TransactionStack();
-        if (static::is_http_request() && isset($_SERVER['PATH_INFO'])) {
+        if ($this->is_http_request() && isset($_SERVER['PATH_INFO'])) {
             // @codeCoverageIgnoreStart
             $this->transaction->push($_SERVER['PATH_INFO']);
             // @codeCoverageIgnoreEnd
@@ -299,7 +299,7 @@ class Raven_Client
     public function setAppPath($value)
     {
         if ($value) {
-            $this->app_path = static::_convertPath($value);
+            $this->app_path = self::_convertPath($value);
         } else {
             $this->app_path = null;
         }
@@ -394,7 +394,7 @@ class Raven_Client
     public function setProcessorsFromOptions($options)
     {
         $processors = array();
-        foreach (Raven_util::get($options, 'processors', static::getDefaultProcessors()) as $processor) {
+        foreach (Raven_util::get($options, 'processors', self::getDefaultProcessors()) as $processor) {
             /**
              * @var Raven_Processor        $new_processor
              * @var Raven_Processor|string $processor
@@ -689,7 +689,7 @@ class Raven_Client
      * @return bool
      * @codeCoverageIgnore
      */
-    protected static function is_http_request()
+    protected function is_http_request()
     {
         return isset($_SERVER['REQUEST_METHOD']) && PHP_SAPI !== 'cli';
     }
@@ -788,7 +788,7 @@ class Raven_Client
             $data['extra'] = array();
         }
         if (!isset($data['event_id'])) {
-            $data['event_id'] = static::uuid4();
+            $data['event_id'] = self::uuid4();
         }
 
         if (isset($data['message'])) {
@@ -797,7 +797,7 @@ class Raven_Client
 
         $data = array_merge($this->get_default_data(), $data);
 
-        if (static::is_http_request()) {
+        if ($this->is_http_request()) {
             $data = array_merge($this->get_http_data(), $data);
         }
 
@@ -981,7 +981,7 @@ class Raven_Client
         $message = $this->encode($data);
 
         $headers = array(
-            'User-Agent' => static::getUserAgent(),
+            'User-Agent' => self::getUserAgent(),
             'X-Sentry-Auth' => $this->getAuthHeader(),
             'Content-Type' => 'application/octet-stream'
         );
@@ -1028,6 +1028,13 @@ class Raven_Client
             $options[CURLOPT_SSLVERSION] = $this->curl_ssl_version;
         }
         if ($this->curl_ipv4) {
+            // some versions of PHP 5.2 don't have this defined correctly
+            if (!defined('CURLOPT_IPRESOLVE')) {
+                define('CURLOPT_IPRESOLVE', 113);
+            }
+            if (!defined('CURL_IPRESOLVE_V4')) {
+                define('CURL_IPRESOLVE_V4', 1);
+            }
             $options[CURLOPT_IPRESOLVE] = CURL_IPRESOLVE_V4;
         }
         if (defined('CURLOPT_TIMEOUT_MS')) {
@@ -1196,7 +1203,7 @@ class Raven_Client
     {
         $timestamp = microtime(true);
         return $this->get_auth_header(
-            $timestamp, static::getUserAgent(), $this->public_key, $this->secret_key
+            $timestamp, self::getUserAgent(), $this->public_key, $this->secret_key
         );
     }
 
