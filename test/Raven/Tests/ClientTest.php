@@ -2233,7 +2233,7 @@ class Raven_Tests_ClientTest extends PHPUnit_Framework_TestCase
 
 class Helper_Php52
 {
-    public static $__DIR__ = null;
+    private static $__DIR__ = null;
 
     public static function getDir()
     {

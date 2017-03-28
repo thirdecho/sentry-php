@@ -5,7 +5,28 @@ immobiliare/sentry-php
    :target: http://travis-ci.org/getsentry/sentry-php
 
 
-This project is a fork of official PHP SDK v1.7.0 for `Sentry <https://getsentry.com/>`_ to work even with php5.2.
+This project is a fork of official `PHP SDK v1.7.0 <https://github.com/getsentry/sentry-php>`_ for `Sentry <https://getsentry.com/>`_ to work even with php5.2.
+
+Installation
+------------
+
+There are various ways to install the PHP integration for Sentry.  The
+recommended way is to use `Composer <http://getcomposer.org/>`__::
+
+    $ composer require "immobiliare/sentry-php"
+
+Alternatively you can manually install it:
+
+1.  Download and extract the latest `sentry-php
+    <https://github.com/immobiliare/sentry-php/archive/master.zip>`__ archive
+    to your PHP project.
+2.  Require the autoloader in your application:
+
+    .. sourcecode:: php
+
+        require_once '/path/to/Raven/library/Raven/Autoloader.php';
+        Raven_Autoloader::register();
+
 
 .. code-block:: php
 

@@ -10,7 +10,7 @@ Raven_Autoloader::register();
 function setupSentry()
 {
     $sentryClient = new Raven_Client(SENTRY_DSN);
-    $__DIR__ = version_compare(PHP_VERSION, '5.3.0', '>=') ? __DIR__ : dirname(__FILE__);
+    $__DIR__ = dirname(__FILE__);
 
     $sentryClient->setAppPath($__DIR__)
         ->setRelease(Raven_Client::VERSION)
