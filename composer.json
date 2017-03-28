@@ -1,14 +1,18 @@
 {
-    "name": "sentry/sentry",
+    "name": "immobiliare/sentry-php",
     "type": "library",
-    "description": "A PHP client for Sentry (http://getsentry.com)",
-    "keywords": ["log", "logging"],
-    "homepage": "http://getsentry.com",
+    "description": "Fork of a PHP client for Sentry (http://getsentry.com) that work also with php5.2",
+    "keywords": ["log", "logging", "sentry", "sentry-php", "php52", "php 5.2"],
+    "homepage": "https://github.com/immobiliare/sentry-php",
     "license": "BSD-3-Clause",
     "authors": [
         {
             "name": "David Cramer",
             "email": "dcramer@gmail.com"
+        },
+        {
+            "name": "ImmobiliareLabs",
+            "email": "labs@immobiliare.it"
         }
     ],
     "require-dev": {

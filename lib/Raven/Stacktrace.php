@@ -23,8 +23,8 @@ class Raven_Stacktrace
                                           Raven_Serializer $serializer = null,
                                           Raven_ReprSerializer $reprSerializer = null)
     {
-        $serializer = $serializer ?: new Raven_Serializer();
-        $reprSerializer = $reprSerializer ?: new Raven_ReprSerializer();
+        $serializer = $serializer === null ? new Raven_Serializer() : $serializer;
+        $reprSerializer = $reprSerializer === null ? new Raven_ReprSerializer() : $reprSerializer;
 
         /**
          * PHP stores calls in the stacktrace, rather than executing context. Sentry
@@ -79,7 +79,7 @@ class Raven_Stacktrace
 
             // detect in_app based on app path
             if ($app_path) {
-                $norm_abs_path = @realpath($abs_path) ?: $abs_path;
+                $norm_abs_path = @realpath($abs_path) ? @realpath($abs_path) : $abs_path;
                 $in_app = (bool)(substr($norm_abs_path, 0, strlen($app_path)) === $app_path);
                 if ($in_app && $excluded_app_paths) {
                     foreach ($excluded_app_paths as $path) {

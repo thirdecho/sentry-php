@@ -15,7 +15,7 @@ function simple_function($a=null, $b=null, $c=null)
 
 function invalid_encoding()
 {
-    $fp = fopen(__DIR__ . '/../../data/binary', 'r');
+    $fp = fopen(Helper_Php52::getDir() . '/../../data/binary', 'r');
     simple_function(fread($fp, 64));
     fclose($fp);
 }
@@ -42,7 +42,7 @@ class Dummy_Raven_Client extends Raven_Client
         $this->__sent_events[] = $data;
     }
 
-    public static function is_http_request()
+    protected function is_http_request()
     {
         return true;
     }
@@ -143,7 +143,7 @@ class Dummy_Raven_Client_No_Http extends Dummy_Raven_Client
     /**
      * @return bool
      */
-    public static function is_http_request()
+    protected function is_http_request()
     {
         return false;
     }
@@ -1003,7 +1003,7 @@ class Raven_Tests_ClientTest extends PHPUnit_Framework_TestCase
 
         $client = new Dummy_Raven_Client($options);
 
-        require_once(__DIR__.'/resources/captureExceptionInLatin1File.php');
+        require_once(Helper_Php52::getDir() . '/resources/captureExceptionInLatin1File.php');
 
         $events = $client->getSentEvents();
         $event = array_pop($events);
@@ -1565,8 +1565,8 @@ class Raven_Tests_ClientTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('/foo/bar/', $property->invoke(null, '/foo/bar/'));
         $this->assertEquals('foo/bar', $property->invoke(null, 'foo/bar'));
         $this->assertEquals('foo/bar/', $property->invoke(null, 'foo/bar/'));
-        $this->assertEquals(dirname(__DIR__).'/', $property->invoke(null, __DIR__.'/../'));
-        $this->assertEquals(dirname(dirname(__DIR__)).'/', $property->invoke(null, __DIR__.'/../../'));
+        $this->assertEquals(dirname(Helper_Php52::getDir()) . '/', $property->invoke(null, Helper_Php52::getDir() . '/../'));
+        $this->assertEquals(dirname(dirname(Helper_Php52::getDir())) . '/', $property->invoke(null, Helper_Php52::getDir() . '/../../'));
     }
 
     /**
@@ -2228,5 +2228,19 @@ class Raven_Tests_ClientTest extends PHPUnit_Framework_TestCase
         $this->assertInternalType('resource', $reflection->getValue($raven));
         $raven->close_curl_resource();
         $this->assertNull($reflection->getValue($raven));
+    }
+}
+
+class Helper_Php52
+{
+    private static $__DIR__ = null;
+
+    public static function getDir()
+    {
+        if (null === self::$__DIR__) {
+            self::$__DIR__ = version_compare(PHP_VERSION, '5.3.0', '>=') ? __DIR__ : dirname(__FILE__);
+        }
+
+        return self::$__DIR__;
     }
 }

@@ -9,10 +9,12 @@ Raven_Autoloader::register();
 
 function setupSentry()
 {
-    (new \Raven_Client(SENTRY_DSN))
-        ->setAppPath(__DIR__)
+    $sentryClient = new Raven_Client(SENTRY_DSN);
+    $__DIR__ = dirname(__FILE__);
+
+    $sentryClient->setAppPath($__DIR__)
         ->setRelease(Raven_Client::VERSION)
-        ->setPrefixes(array(__DIR__))
+        ->setPrefixes(array($__DIR__))
         ->install();
 }
 
