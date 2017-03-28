@@ -1,11 +1,25 @@
 immobiliare/sentry-php
 ======================
 
-.. image:: https://secure.travis-ci.org/getsentry/sentry-php.png?branch=master
-   :target: http://travis-ci.org/getsentry/sentry-php
+|Travis CI| |Latest Stable Version| |Total Downloads| |Latest Unstable Version|
+|License| |Monthly Downloads| |Daily Downloads|
 
+.. |Travis CI| image:: https://secure.travis-ci.org/getsentry/sentry-php.png?branch=master
+:target: http://travis-ci.org/getsentry/sentry-php
+.. |Latest Stable Version| image:: https://poser.pugx.org/immobiliare/sentry-php/v/stable
+:target: https://packagist.org/packages/immobiliare/sentry-php
+.. |Total Downloads| image:: https://poser.pugx.org/immobiliare/sentry-php/downloads
+:target: https://packagist.org/packages/immobiliare/sentry-php
+.. |Latest Unstable Version| image:: https://poser.pugx.org/immobiliare/sentry-php/v/unstable
+:target: https://packagist.org/packages/immobiliare/sentry-php
+.. |License| image:: https://poser.pugx.org/immobiliare/sentry-php/license
+:target: https://packagist.org/packages/immobiliare/sentry-php
+.. |Monthly Downloads| image:: https://poser.pugx.org/immobiliare/sentry-php/d/monthly
+:target: https://packagist.org/packages/immobiliare/sentry-php
+.. |Daily Downloads| image:: https://poser.pugx.org/immobiliare/sentry-php/d/daily
+:target: https://packagist.org/packages/immobiliare/sentry-php
 
-This project is a fork of official `PHP SDK v1.7.0 <https://github.com/getsentry/sentry-php>`_ for `Sentry <https://getsentry.com/>`_ to work even with php5.2.
+This project is a fork of official `PHP SDK v1.7 <https://github.com/getsentry/sentry-php>`_ for `Sentry <https://getsentry.com/>`_ to work even with php5.2.
 
 Installation
 ------------
@@ -13,7 +27,7 @@ Installation
 There are various ways to install the PHP integration for Sentry.  The
 recommended way is to use `Composer <http://getcomposer.org/>`__::
 
-    $ composer require "immobiliare/sentry-php"
+    $ composer require immobiliare/sentry-php:1.7.x-dev
 
 Alternatively you can manually install it:
 
