@@ -600,6 +600,12 @@ class Raven_Client
                 ),
             );
 
+            if (empty($exc_data['severity'])) {
+                if (method_exists($exc, 'getSeverity')) {
+                    $exc_data['severity'] = $exc->getSeverity();
+                }
+            }
+
             $exceptions[] = $exc_data;
         } while ($has_chained_exceptions && $exc = $exc->getPrevious());
 
