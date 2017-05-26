@@ -600,11 +600,18 @@ class Raven_Client
                 ),
             );
 
-            if (empty($exc_data['severity'])) {
-                if (method_exists($exc, 'getSeverity')) {
-                    $exc_data['severity'] = $exc->getSeverity();
-                }
+            //adds more info about the thrown exception
+            $exc_data['exception_thrown_info'] = array();
+
+            if (method_exists($exc, 'getMessage')) {
+                $exc_data['exception_thrown_info']['message'] = $exc->getMessage();
             }
+
+            if (method_exists($exc, 'getSeverity')) {
+                $exc_data['exception_thrown_info']['severity'] = $exc->getSeverity();
+            }
+
+            $exc_data['exception_thrown_info'] = array_merge($exc_data['exception_thrown_info'], $frame_where_exception_thrown);
 
             $exceptions[] = $exc_data;
         } while ($has_chained_exceptions && $exc = $exc->getPrevious());
